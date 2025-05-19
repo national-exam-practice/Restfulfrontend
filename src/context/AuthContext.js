@@ -45,18 +45,19 @@ export const AuthProvider = ({ children }) => {
         }
     };
 
-    const register = async ({ email, password, firstname, lastname }) => {
+    const register = async ({ email, password, firstname, lastname,role }) => {
         try {
             const response = await apis.post('/auth/register', {
                 email,
                 password,
                 firstname,
-                lastname
+                lastname,
+                role
             });
             setCurrentUser(response.data.user); 
             return response.data.message; 
         } catch (error) {
-            throw new Error(error.response.data.error || 'Registration failed');
+            throw new Error(error.response.data.message || 'Registration failed');
         }
     };
 
@@ -73,11 +74,16 @@ export const AuthProvider = ({ children }) => {
         }
     };
 
+        const isOwner = currentUser?.role === 'OWNER';
+        const isAdmin = currentUser?.role === 'ADMIN';
+
     const value = {
         currentUser,
         login,
         register,
         logout,
+        isOwner,
+        isAdmin,
     };
 
     return (
