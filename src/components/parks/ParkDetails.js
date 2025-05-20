@@ -3,7 +3,8 @@ import { useParams } from 'react-router-dom';
 import apis from '../../context/Api';
 import LoadingSpinner from '../common/LoadingSpinner';
 import ErrorMessage from '../common/ErrorMessage';
-import RequestForm from '../requests/RequestForm';
+// import RequestForm from '../requests/RequestForm';
+import CarEntryForm from '../requests/RequestForm';
 
 const ParkDetails = () => {
     const { id } = useParams();
@@ -139,7 +140,7 @@ const ParkDetails = () => {
                     {/* Request Form */}
                     {showRequestForm && !isFullyBooked && (
                         <div className="mb-6 transition-all duration-300 ease-in-out">
-                            <RequestForm 
+                            <CarEntryForm 
                                 parkId={id} 
                                 spots={spots.filter(spot => !spot.isOccupied)} 
                                 onRequestSubmitted={() => {
