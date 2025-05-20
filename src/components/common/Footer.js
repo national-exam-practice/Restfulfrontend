@@ -41,7 +41,6 @@ const Footer = () => {
                             <li><Link to="/services/daily" className="hover:text-blue-400 transition">Daily Parking</Link></li>
                             <li><Link to="/services/monthly" className="hover:text-blue-400 transition">Monthly Parking</Link></li>
                             <li><Link to="/services/events" className="hover:text-blue-400 transition">Event Parking</Link></li>
-                            <li><Link to="/services/valet" className="hover:text-blue-400 transition">Valet Service</Link></li>
                         </ul>
                     </div>
 
@@ -51,44 +50,17 @@ const Footer = () => {
                         <ul className="space-y-3">
                             <li className="flex items-start">
                                 <FaMapMarkerAlt className="mt-1 mr-3 flex-shrink-0" />
-                                <span>123 Parking Street, Cityville, ST 12345</span>
+                                <span>Parking Street, Kigali, Rwanda</span>
                             </li>
                             <li className="flex items-center">
                                 <FaPhone className="mr-3" />
-                                <span>(123) 456-7890</span>
+                                <span>(+250) 791726280</span>
                             </li>
                             <li className="flex items-center">
                                 <FaEnvelope className="mr-3" />
-                                <span>info@parkeasy.com</span>
+                                <span>sibomanaedouard@gmail.com</span>
                             </li>
                         </ul>
-                    </div>
-                </div>
-
-                {/* Newsletter Subscription */}
-                <div className="mb-8">
-                    <h4 className="text-lg font-semibold mb-4">Subscribe to Our Newsletter</h4>
-                    <div className="flex flex-col sm:flex-row gap-2">
-                        <input 
-                            type="email" 
-                            placeholder="Your email address" 
-                            className="flex-grow p-3 rounded text-gray-800 focus:outline-none focus:ring-2 focus:ring-blue-500"
-                        />
-                        <button className="bg-blue-600 hover:bg-blue-700 text-white font-bold py-3 px-6 rounded transition">
-                            Subscribe
-                        </button>
-                    </div>
-                </div>
-
-                {/* Copyright and Legal */}
-                <div className="border-t border-gray-700 pt-6 flex flex-col md:flex-row justify-between items-center">
-                    <div className="mb-4 md:mb-0">
-                        &copy; {new Date().getFullYear()} ParkEasy. All rights reserved.
-                    </div>
-                    <div className="flex space-x-6">
-                        <Link to="/privacy" className="hover:text-blue-400 transition">Privacy Policy</Link>
-                        <Link to="/terms" className="hover:text-blue-400 transition">Terms of Service</Link>
-                        <Link to="/cookies" className="hover:text-blue-400 transition">Cookie Policy</Link>
                     </div>
                 </div>
             </div>

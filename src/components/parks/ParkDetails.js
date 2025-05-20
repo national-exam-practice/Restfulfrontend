@@ -51,21 +51,26 @@ const ParkDetails = () => {
         <div className="max-w-4xl mx-auto px-4 py-8">
             <div className="bg-white rounded-xl shadow-md overflow-hidden">
                 {/* Park Header with Image */}
-                <div className="h-48 bg-gray-200 flex items-center justify-center">
-                    {park.imageUrl ? (
-                        <img 
-                            src={park.imageUrl} 
-                            alt={park.name} 
-                            className="h-full w-full object-cover"
-                            onError={(e) => {
-                                e.target.onerror = null;
-                                e.target.src = 'https://via.placeholder.com/400x200?text=No+Image+Available';
-                            }}
-                        />
-                    ) : (
-                        <span className="text-gray-500">No image available</span>
-                    )}
-                </div>
+             <div className="h-48 bg-gray-200 flex items-center justify-center">
+    {park.image_url ? (
+        <img 
+            src={park.image_url.startsWith('/uploads') 
+                ? `http://localhost:5000${park.image_url}`
+                : park.image_url
+            }
+            alt={park.name}
+            className="h-full w-full object-cover"
+            onError={(e) => {
+                e.target.onerror = null;
+                e.target.src = 'https://via.placeholder.com/400x200?text=No+Image+Available';
+            }}
+        />
+    ) : (
+        <div className="text-gray-500">
+            No image available
+        </div>
+    )}
+</div>
                 
                 {/* Park Details */}
                 <div className="p-6">

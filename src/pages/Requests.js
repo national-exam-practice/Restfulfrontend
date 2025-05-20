@@ -45,7 +45,7 @@ const Requests = () => {
                 <div className="space-y-4">
                     {requests.map(request => (
                         <RequestCard 
-                            key={request._id} 
+                            key={request.id} 
                             request={request} 
                             onCancel={handleCancel}
                             showActions={true}
