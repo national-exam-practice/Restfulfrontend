@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import apis from '../context/Api';
-import ParkList from '../components/parks/ParkList';
+// import ParkList from '../components/parks/ParkList';
 import LoadingSpinner from '../components/common/LoadingSpinner';
 import ErrorMessage from '../components/common/ErrorMessage';
 import { useAuth } from '../context/AuthContext';

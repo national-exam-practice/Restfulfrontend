@@ -10,6 +10,7 @@ const RequestForm = ({ parkId, spots, onRequestSubmitted }) => {
         endTime: '',
         vehicleNumber: ''
     });
+    console.log(currentUser)
     const [error, setError] = useState('');
     const [success, setSuccess] = useState('');
 
@@ -31,6 +32,7 @@ const RequestForm = ({ parkId, spots, onRequestSubmitted }) => {
                 endTime: formData.endTime,
                 vehicleNumber: formData.vehicleNumber
             });
+            console.log(response.data);
             
             setSuccess('Parking request submitted successfully!');
             // Clear form and optionally close it
@@ -81,7 +83,6 @@ const RequestForm = ({ parkId, spots, onRequestSubmitted }) => {
                         </select>
                     </div>
                     
-                    {/* Rest of your form fields remain the same */}
                     <div>
                         <label className="block text-gray-700 mb-2">Vehicle Number</label>
                         <input
