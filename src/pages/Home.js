@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import apis from '../context/Api';
 import LoadingSpinner from '../components/common/LoadingSpinner';
 import ErrorMessage from '../components/common/ErrorMessage';
@@ -7,6 +7,7 @@ import ParkCard from '../components/parks/ParkCard';
 import { useAuth } from '../context/AuthContext';
 
 const Home = () => {
+    const navigate = useNavigate();
     const [featuredParks, setFeaturedParks] = useState([]);
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState(null);
@@ -35,13 +36,22 @@ const Home = () => {
 
     const handleSearchChange = (e) => {
         const { name, value } = e.target;
+        console.log(`Input changed: ${name} = ${value}`);
         setSearchQuery(prev => ({ ...prev, [name]: value }));
     };
 
     const handleSearchSubmit = (e) => {
         e.preventDefault();
-        // In a real implementation, this would redirect to parks page with search params
         console.log('Search submitted:', searchQuery);
+        
+        // Create query string from search parameters
+        const queryParams = new URLSearchParams();
+        if (searchQuery.location) queryParams.append('location', searchQuery.location);
+        if (searchQuery.startTime) queryParams.append('startTime', searchQuery.startTime);
+        if (searchQuery.endTime) queryParams.append('endTime', searchQuery.endTime);
+        
+        // Navigate to parks page with search parameters
+        navigate(`/parks?${queryParams.toString()}`);
     };
 
     return (
@@ -58,36 +68,40 @@ const Home = () => {
                     <form onSubmit={handleSearchSubmit} className="bg-white rounded-lg shadow-xl p-6 max-w-4xl mx-auto">
                         <div className="grid grid-cols-1 md:grid-cols-4 gap-4">
                             <div className="md:col-span-2">
-                                <label className="block text-gray-700 text-left mb-2">Location</label>
+                                <label htmlFor="location" className="block text-gray-700 text-left mb-2">Location</label>
                                 <input
                                     type="text"
+                                    id="location"
                                     name="location"
                                     value={searchQuery.location}
                                     onChange={handleSearchChange}
                                     placeholder="Where are you going?"
-                                    className="w-full p-3 border rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
+                                    className="w-full p-3 border rounded-lg text-gray-800 focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
+                                    autoComplete="off"
                                 />
                             </div>
                             
                             <div>
-                                <label className="block text-gray-700 text-left mb-2">From</label>
+                                <label htmlFor="startTime" className="block text-gray-700 text-left mb-2">From</label>
                                 <input
                                     type="datetime-local"
+                                    id="startTime"
                                     name="startTime"
                                     value={searchQuery.startTime}
                                     onChange={handleSearchChange}
-                                    className="w-full p-3 border rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
+                                    className="w-full p-3 border rounded-lg text-gray-800 focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
                                 />
                             </div>
                             
                             <div>
-                                <label className="block text-gray-700 text-left mb-2">To</label>
+                                <label htmlFor="endTime" className="block text-gray-700 text-left mb-2">To</label>
                                 <input
                                     type="datetime-local"
+                                    id="endTime"
                                     name="endTime"
                                     value={searchQuery.endTime}
                                     onChange={handleSearchChange}
-                                    className="w-full p-3 border rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
+                                    className="w-full p-3 border rounded-lg text-gray-800 focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
                                 />
                             </div>
                         </div>
@@ -115,11 +129,15 @@ const Home = () => {
                     <LoadingSpinner />
                 ) : error ? (
                     <ErrorMessage message={error} />
-                ) : (
+                ) : featuredParks.length > 0 ? (
                     <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
                         {featuredParks.map(park => (
-                            <ParkCard key={park._id} park={park} />
+                            <ParkCard key={park.id || park._id} park={park} />
                         ))}
+                    </div>
+                ) : (
+                    <div className="text-center py-8">
+                        <p className="text-gray-600">No featured parking locations available at the moment.</p>
                     </div>
                 )}
 
