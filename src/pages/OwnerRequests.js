@@ -31,6 +31,7 @@ const OwnerRequests = () => {
     const handleStatusUpdate = async (requestId, status) => {
         try {
             await apis.patch(`/users/requests/${requestId}/status`, { status });
+            // Update the local state to reflect the change
             setRequests(prev => prev.map(req => 
                 req._id === requestId ? { ...req, status } : req
             ));
@@ -58,8 +59,8 @@ const OwnerRequests = () => {
                 <div className="space-y-4">
                     {requests.map(request => (
                         <RequestCard 
-                            key={request.id} 
-                            request={request} 
+                            key={request._id} 
+                            request={request}
                             onStatusUpdate={handleStatusUpdate}
                             showOwnerActions={true}
                         />

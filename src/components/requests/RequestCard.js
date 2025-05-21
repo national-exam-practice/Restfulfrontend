@@ -3,7 +3,14 @@ import moment from 'moment';
 import { PDFDownloadLink } from '@react-pdf/renderer';
 import TicketDocument from './TicketDocument';
 
-const RequestCard = ({ request, onCancel, onExit, showActions = false }) => {
+const RequestCard = ({ 
+    request, 
+    onCancel, 
+    onExit, 
+    onStatusUpdate, 
+    showActions = false,
+    showOwnerActions = false 
+}) => {
     if (!request) {
         return <div className="bg-white rounded-lg shadow-md p-6">No request data available</div>;
     }
@@ -32,13 +39,13 @@ const RequestCard = ({ request, onCancel, onExit, showActions = false }) => {
                 
                 <div>
                     <p className="font-semibold">Status:</p>
-                 <span className={`px-2 py-1 rounded text-sm ${
-  status === 'PENDING' ? 'bg-yellow-100 text-yellow-800' :
-  status === 'APPROVED' ? 'bg-green-100 text-green-800' :
-  status === 'COMPLETED' ? 'bg-blue-100 text-blue-800' : 
-  status === 'REJECTED' ? 'bg-red-100 text-red-800' :
-  'bg-gray-100 text-gray-800'
-}`}>
+                    <span className={`px-2 py-1 rounded text-sm ${
+                        status === 'PENDING' ? 'bg-yellow-100 text-yellow-800' :
+                        status === 'APPROVED' ? 'bg-green-100 text-green-800' :
+                        status === 'COMPLETED' ? 'bg-blue-100 text-blue-800' : 
+                        status === 'REJECTED' ? 'bg-red-100 text-red-800' :
+                        'bg-gray-100 text-gray-800'
+                    }`}>
                         {status}
                     </span>
                 </div>
@@ -50,7 +57,7 @@ const RequestCard = ({ request, onCancel, onExit, showActions = false }) => {
                 </p>
             </div>
 
-            {request.endTime && (
+            {request.endTime && (status === 'APPROVED' || status === 'COMPLETED') && (
                 <div className="mt-4 flex justify-start">
                     <PDFDownloadLink
                         document={<TicketDocument request={request} />}
@@ -62,6 +69,25 @@ const RequestCard = ({ request, onCancel, onExit, showActions = false }) => {
                 </div>
             )}
 
+            {/* Owner actions for approving or rejecting requests */}
+            {showOwnerActions && status === 'PENDING' && (
+                <div className="mt-4 flex justify-end space-x-2">
+                    <button
+                        onClick={() => onStatusUpdate(request.id, 'APPROVED')}
+                        className="bg-green-500 hover:bg-green-600 text-white px-4 py-2 rounded transition"
+                    >
+                        Approve
+                    </button>
+                    <button
+                        onClick={() => onStatusUpdate(request.id, 'REJECTED')}
+                        className="bg-red-500 hover:bg-red-600 text-white px-4 py-2 rounded transition"
+                    >
+                        Reject
+                    </button>
+                </div>
+            )}
+
+            {/* User exit option */}
             {canExit && (
                 <div className="mt-4 flex justify-end">
                     <button
@@ -73,6 +99,7 @@ const RequestCard = ({ request, onCancel, onExit, showActions = false }) => {
                 </div>
             )}
 
+            {/* User cancel option */}
             {showActions && status === 'PENDING' && (
                 <div className="mt-4 flex justify-end">
                     <button
